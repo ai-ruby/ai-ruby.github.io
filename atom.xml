@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
+  <title>ai-ruby博客</title>
   
   
   <link href="/atom.xml" rel="self"/>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Learning Typescript</title>
-    <link href="https://ai-ruby.github.io/2018/07/27/Typescript/"/>
-    <id>https://ai-ruby.github.io/2018/07/27/Typescript/</id>
+    <link href="https://ai-ruby.github.io//posts/%E5%AD%A6%E4%B9%A0typescript/"/>
+    <id>https://ai-ruby.github.io//posts/学习typescript/</id>
     <published>2018-07-27T03:31:04.000Z</published>
     <updated>2018-07-27T04:13:21.638Z</updated>
     
@@ -46,8 +46,8 @@
   
   <entry>
     <title>Mac 使用Hexo + github 搭建个人博客详解</title>
-    <link href="https://ai-ruby.github.io/2018/04/03/hello-world/"/>
-    <id>https://ai-ruby.github.io/2018/04/03/hello-world/</id>
+    <link href="https://ai-ruby.github.io//posts/Hexo%20+%20github%20%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
+    <id>https://ai-ruby.github.io//posts/Hexo + github 搭建个人博客/</id>
     <published>2018-04-03T03:32:40.613Z</published>
     <updated>2018-07-27T04:03:47.939Z</updated>
     
