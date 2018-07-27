@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="CmS4vTEH2R"/>
+    
+    
+    
+    <title>puppeteer 爬虫入门 | ai-ruby博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    
+    <meta name="theme-color" content="#77AAFF">
+    
+    
+    <meta name="keywords" content="puppeteer">
+    
+    
+
+    
+
+    <!-- Baidu Push -->
+<script>
+	(function(){
+		var bp = document.createElement('script');
+		var curProtocol = window.location.protocol.split(':')[0];
+		if (curProtocol === 'https') {
+			bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+		}
+		else {
+			bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+		}
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+
+	var _hmt = _hmt || [];
+</script>
+
+
+
+    
+    <meta name="description" content="学习 puppeteer 简单模拟github登录页  puppeteerPuppeteer是谷歌官方出品的一个通过DevTools协议控制headless Chrome的Node库。可以通过Puppeteer的提供的api直接控制Chrome模拟大部分用户操作来进行UI Test或者作为爬虫访问页面来收集数据。 它可以做什么?   生成网页截图 或者 打印PDF 高级爬虫, 可以爬取大量异步渲">
+<meta name="keywords" content="puppeteer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="puppeteer 爬虫入门">
+<meta property="og:url" content="https://ai-ruby.github.io/posts/学习 puppeteer 入门/index.html">
+<meta property="og:site_name" content="ai-ruby博客">
+<meta property="og:description" content="学习 puppeteer 简单模拟github登录页  puppeteerPuppeteer是谷歌官方出品的一个通过DevTools协议控制headless Chrome的Node库。可以通过Puppeteer的提供的api直接控制Chrome模拟大部分用户操作来进行UI Test或者作为爬虫访问页面来收集数据。 它可以做什么?   生成网页截图 或者 打印PDF 高级爬虫, 可以爬取大量异步渲">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-27T06:58:07.902Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="puppeteer 爬虫入门">
+<meta name="twitter:description" content="学习 puppeteer 简单模拟github登录页  puppeteerPuppeteer是谷歌官方出品的一个通过DevTools协议控制headless Chrome的Node库。可以通过Puppeteer的提供的api直接控制Chrome模拟大部分用户操作来进行UI Test或者作为爬虫访问页面来收集数据。 它可以做什么?   生成网页截图 或者 打印PDF 高级爬虫, 可以爬取大量异步渲">
+    
+        <link rel="alternate" type="application/atom+xml" title="ai-ruby博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link id="style" rel="stylesheet" href="/css/style.css?v=3.0">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+            
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+    <aside id="menu"  class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" >
+      <div class="brand">
+        <a href="https://github.com/ai-ruby" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg" alt="avatar">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname" id="name">ai-ruby</h5>
+          
+            <div id="yiyanmotto" class="motto">&nbsp;</div>
+          
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+              <li class="waves-block waves-effect">
+                  <a href="/"  >
+                    <i class="icon icon-lg icon-home"></i>
+                    <span>主 页</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/archives"  >
+                    <i class="icon icon-lg icon-archives"></i>
+                    <span>归 档</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/categories"  >
+                    <i class="icon icon-lg icon-th-list"></i>
+                    <span>分 类</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/tags"  >
+                    <i class="icon icon-lg icon-tags"></i>
+                    <span>标 签</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/about"  >
+                    <i class="icon icon-lg icon-smile-o"></i>
+                    <span>关 于</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+      <div class="nav2">
+          
+              <a class="nav2item" data-title="Email" href="mailto:526852554@qq.com" target="_parent"title="Email" >
+                <i class="fade in icon icon-lg icon-envelope-o envelope-o"></i>
+              </a>
+          
+              <a class="nav2item" data-title="Github" href="https://github.com/ai-ruby" target="_blank"title="Github" >
+                <i class="fade in icon icon-lg icon-github github"></i>
+              </a>
+          
+              <a class="nav2item" data-title="微博" href="/" target="_blank"title="微博" >
+                <i class="fade in icon icon-lg icon-weibo weibo"></i>
+              </a>
+          
+
+            </div>
+
+      </ul>
+
+    </div>
+  </div>
+
+</aside>
+
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">puppeteer 爬虫入门</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="global.search_input_hint">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        <a href="../../atom.xml" target="_blank" class="header-icon waves-effect waves-circle waves-light" id="Rss">
+            <i class="icon icon-lg icon-rss"></i>
+        </a>
+    </div>
+</header>
+<header class="content-header post-header">
+    
+    
+    <div class="container fade-scale">
+        <div id="myheader">
+            <h1 class="title">
+                
+            </h1>
+            <h5 class="subtitle">
+                
+                
+            </h5>
+        </div>
+    </div>
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#puppeteer"><span class="post-toc-number">1.</span> <span class="post-toc-text">puppeteer</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装环境"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">安装环境</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#初始化环境"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">初始化环境</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基本用法"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">基本用法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#举个栗子"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">举个栗子</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#快速了解使用-API"><span class="post-toc-number">2.</span> <span class="post-toc-text">快速了解使用 API</span></a></li></ol>
+        </nav>
+    </aside>
+   
+<article id="post-puppeteer 爬虫入门"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">puppeteer 爬虫入门</h1>
+        <div class="post-meta">
+            <i class="icon icon-lg icon-calendar-o"></i>
+            发表于
+            <time class="post-time" title="2018-07-27 14:51:12" datetime="2018-07-27T06:51:12.150Z"  itemprop="datePublished">2018-07-27</time>
+
+            <br id="mybreak"/>
+            
+	<i class="icon icon-lg icon-folder-o"></i>
+	分类：<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/爬虫/">爬虫</a></li></ul>
+
+
+            <i>·</i>
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>次浏览
+</span>
+
+
+        </div>
+        <div class="post-count-custom">
+            <i class="icon icon-lg icon-comment-o"></i>
+            阅读本文可能花费您&nbsp;<span class="post-count">6</span>&nbsp;分钟
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>学习 puppeteer 简单模拟github登录页</p>
+</blockquote>
+<h2 id="puppeteer"><a href="#puppeteer" class="headerlink" title="puppeteer"></a>puppeteer</h2><p>Puppeteer是谷歌官方出品的一个通过DevTools协议控制headless Chrome的Node库。可以通过Puppeteer的提供的api直接控制Chrome模拟大部分用户操作来进行UI Test或者作为爬虫访问页面来收集数据。</p>
+<p>它可以做什么? </p>
+<ul>
+<li>生成网页截图 或者 打印PDF</li>
+<li>高级爬虫, 可以爬取大量异步渲染内容的网页</li>
+<li>模拟键盘输入/表单自动提交/登录网页, 实现UI自动化测试</li>
+<li>捕获站点的时间线,追踪网站,分析网站性能问题</li>
+</ul>
+<h3 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h3><p>Puppeteer本身依赖6.4以上的Node，但是为了异步超级好用的async/await，推荐使用7.6版本以上的Node。另外headless Chrome本身对服务器依赖的库的版本要求比较高，centos服务器依赖偏稳定，v6很难使用headless Chrome，提升依赖版本可能出现各种服务器问题（包括且不限于无法使用ssh），最好使用高版本服务器。</p>
+<ul>
+<li>Node 7.6+</li>
+</ul>
+<h3 id="初始化环境"><a href="#初始化环境" class="headerlink" title="初始化环境"></a>初始化环境</h3><ul>
+<li>mkdir demo – 新建目录</li>
+<li>cd demo – 进入 demo 目录</li>
+<li>npm init – 初始化NPM,填入必要的信息(一直按确定即可)</li>
+<li>npm i – save puppeteer – npm i == npm install , puppeteer 安装</li>
+</ul>
+<h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><ul>
+<li>puppeteer.launch() 创建一个浏览器实例<code>Browser</code>对象</li>
+<li>const page = await browser.newPage 通过<code>browser</code>对象创建页面 Page对象</li>
+<li>page.goto() 跳转指定页面</li>
+<li>page.screenshot() 对页面截图</li>
+<li>page.pdf 生成pdf,可以打印下来</li>
+</ul>
+<h3 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h3><ul>
+<li>简单快速了解 puppeter</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">const puppeteer = require(&apos;puppeteer&apos;)</span><br><span class="line"></span><br><span class="line">async function run () &#123;</span><br><span class="line">    const browser = await puppeteer.launch()</span><br><span class="line">    const page = await browser.newPage() // 新建一个浏览器页面</span><br><span class="line">    await page.goto(&apos;https://github.com&apos;) // 输入要爬虫的网址</span><br><span class="line">    </span><br><span class="line">    await page.waitFor(1000) // 等待1000</span><br><span class="line">    </span><br><span class="line">    // 截图保存到screenhots/目录下</span><br><span class="line">    await page.screenshot(&#123;path: &apos;screenshots/github.png&apos;&#125;)</span><br><span class="line">    </span><br><span class="line">    // 打印 pdf 操作</span><br><span class="line">    await page.pdf(&#123;path: &apos;example.pdf&apos;, format: &apos;A4&apos;&#125;)</span><br><span class="line">    </span><br><span class="line">    await page.waitForSeletor(&apos;.more&apos;) // 查找页面的元素</span><br><span class="line">    </span><br><span class="line">    await page.click(&apos;.more&apos;) // 默认点击后 获得数据</span><br><span class="line">    </span><br><span class="line">    // 提取元素内容方法 `evaluate`</span><br><span class="line">    const result = await page.evaluate(() =&gt; &#123;</span><br><span class="line">        const $ = window.$</span><br><span class="line">        console.log($) // 查看是否有引入jq, 为了更好查找你想要爬虫的元素数据</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    browser.close() // 浏览器关闭</span><br><span class="line">    </span><br><span class="line">    process.sennd(&#123;reult&#125;&#125; // 发送结果</span><br><span class="line">    process.close() // 程序关闭</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>注意: puppeteer 运用Chromium in  <code>无界面模式</code>, 模拟browser打开浏览器,然后模拟你操作或者操作后得到的数据,获取数据后browser很快关闭</em></p>
+<ul>
+<li>动态模拟登陆 demo</li>
+</ul>
+<ol>
+<li>新建一个 <code>creds.js</code></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 注意: &apos;&apos;为自己的用户名和密码</span><br><span class="line">module.expors = &#123; </span><br><span class="line">    username: &apos;&lt;GITHUB_USERNAME&gt;&apos; </span><br><span class="line">    password: &apos;&lt;GITHUB_PASSWORD&gt;&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>新建 <code>index.js</code></li>
+</ol>
+<p>在调用 <code>Puppeteer</code> 的 <code>launch</code> 方法的时候传入参数对象中带有 <code>headless: false</code>，即可启动其 GUI 界面，进行可视化调试。</p>
+<p>常用方法：点击可以使用<code>page.click(selector[, options])</code>方法，也可以选择聚焦<code>page.focus(selector)</code>。<br>输入可以使用<code>page.type(selector, text[, options])</code>输入指定的字符串，还可以在options中设置delay缓慢输入更像真人一些。也可以使用<code>keyboard.down(key[, options])</code>来一个字符一个字符的输入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">const puppeteer = require(&apos;puppeteer&apos;)</span><br><span class="line">const creds = reuqire(&apos;./creds&apos;) // 引入creds.js</span><br><span class="line"></span><br><span class="line">// 可立马执行</span><br><span class="line">;(async () =&gt; &#123;</span><br><span class="line">    const browser = await puppeteer.launch(&#123;</span><br><span class="line">        headless: false</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    const page = await.browser.newPage() </span><br><span class="line">    await page.goto(&apos;https://github.com/login&apos;)</span><br><span class="line">    </span><br><span class="line">    // 找到对应 输入用户名,密码,提交按钮</span><br><span class="line">    const USERNAME_SELECTOR = #user_login&apos;</span><br><span class="line">    const PASSWORD_SELECTOR = &apos;#user_password&apos;</span><br><span class="line">    const BUTTON_SELECTOR = &apos;#signup_button&apos;</span><br><span class="line">    </span><br><span class="line">    await page.click(USERNAME_SELECTOR);</span><br><span class="line">    await page.type(CREDS.username);</span><br><span class="line"></span><br><span class="line">    await page.click(PASSWORD_SELECTOR);</span><br><span class="line">    await page.type(CREDS.password);</span><br><span class="line"></span><br><span class="line">    await page.click(BUTTON_SELECTOR);</span><br><span class="line"></span><br><span class="line">    await page.waitForNavigation();</span><br><span class="line"></span><br><span class="line">    browser.close() // 浏览器关闭</span><br><span class="line">    </span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<h2 id="快速了解使用-API"><a href="#快速了解使用-API" class="headerlink" title="快速了解使用 API"></a>快速了解使用 API</h2><ul>
+<li><p>1.模拟页面点击</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">page.mouseMoved(x, y, options = &#123;&#125;)</span><br><span class="line">page.mousePressed(x, y, options = &#123;&#125;)</span><br><span class="line">page.mouseReleased(x, y, options = &#123;&#125;)</span><br><span class="line">page.tap(x, y, options = &#123;&#125;)</span><br><span class="line">page.touchmove()</span><br><span class="line">page.touchend()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2.上下翻动页面</p>
+<p>  page.evaluate 的 <code>window.scrollBy</code></p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">page.evaluate(_ =&gt; &#123; window.scrollBy(0, window.innerHeight);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>3.获取element中的自定义属性</p>
+<p>  page.evaluate 的 <code>object.getAttribute</code></p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">await page.evaluate( (obj) =&gt; &#123;</span><br><span class="line">  return obj.getAttribute(&apos;data-src&apos;);</span><br><span class="line">&#125;, imgurlEle);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4.如何输入内容</p>
+<ul>
+<li><p>page.type</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">await page.click(&apos;#user_name&apos;)</span><br><span class="line">page.type(&apos;name&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>* page.evalute 后 element.value 
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">await page.evaluate((a, b) =&gt; &#123;</span><br><span class="line">   document.querySelector(&apos;#a&apos;).value = a;</span><br><span class="line">   document.querySelector(&apos;#b&apos;).value = b;</span><br><span class="line">   document.querySelector(&apos;#c&apos;).click();</span><br><span class="line"> &#125;, a, b);</span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li><p>5.获取页面html代码<br>  page.content()</p>
+</li>
+<li><p>6.关闭弹窗<br>  dialong.accept</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">page.on(&apos;dialog&apos;, dialog =&gt; &#123;</span><br><span class="line">    dialog.accept(&apos;test&apos;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>7.读取和设置 cookies<br>  page.setCookies 和 page.cookies 接口</p>
+</li>
+<li><p>8.上传文件</p>
+<p>  elementHandle.uploadFile(…filePaths)接口, 目前只支持 input type=”file”类型的文件提交</p>
+</li>
+</ul>
+<ul>
+<li><p>9.监控页面的网络请求</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const page = await browser.newPage();</span><br><span class="line">await page.setRequestInterceptionEnabled(true);</span><br><span class="line"></span><br><span class="line">page.on(&apos;request&apos;, request =&gt; &#123;</span><br><span class="line">  request.continue(); // pass it through.</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">page.on(&apos;response&apos;, response =&gt; &#123;</span><br><span class="line">  const req = response.request();</span><br><span class="line">  console.log(req.method, response.status, req.url);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>10.如何在页面中不同的Frame中切换</p>
+<p>  通过page.frames()获得frame的数组，使用 iframe.$ 来获得对应frame中的handle</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const browser = await puppeteer.launch(&#123;headless: false&#125;);</span><br><span class="line">const page = await browser.newPage();</span><br><span class="line">await page.setContent(&apos;&lt;iframe&gt;&lt;/iframe&gt;&apos;);</span><br><span class="line"></span><br><span class="line">// the page.frames()[0] is always a main frame.</span><br><span class="line">const iframe = page.frames()[1];</span><br><span class="line">// fetch the body element of the iframe</span><br><span class="line">const body = await iframe.$(&apos;body&apos;);</span><br><span class="line">// ...</span><br><span class="line">// do something with `body`..</span><br><span class="line">// ...</span><br><span class="line">browser.close();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>11.page.evalute 能否返回page DOM?<br>  可以传入 <code>ObjectHandle</code>到page.evaluate中成为DOM元素，但当DOM被返回的时候则成 为对应的<code>ObjectHandle</code>.<br>  如果需要返回，也可以返回实际需要的值</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const list = await page.evaluateHandle(() =&gt; &#123;</span><br><span class="line">return Array.from(document.getElementsByTagName(&apos;a&apos;)).map(a =&gt; a.href);</span><br><span class="line">&#125;);</span><br><span class="line">console.log(await list.jsonValue());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>12.避免页面ssl认证错误信息</p>
+<p>  通过puppeteer option ignoredHTTPErrors 实现</p>
+</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    post.last_updated<time datetime="2018-07-27T06:58:07.902Z" itemprop="dateUpdated">2018-07-27 14:58:07</time>
+</span>
+
+
+        
+        原文链接：<a href="/posts/学习 puppeteer 入门/" target="_blank" rel="external">https://ai-ruby.github.io/posts/学习 puppeteer 入门/</a>
+        
+    </div>
+    <footer>
+        <div onclick="location.href='https://ai-ruby.github.io'">
+            <img src="/img/avatar.jpg" alt="ai-ruby">
+            <a>ai-ruby</a>
+        </div>
+    </footer>
+</blockquote>
+
+        
+    <div class="page-reward">
+        <nav class="myreward">
+            <a id="rewardBtn" href="javascript:;"><span>打&nbsp;赏</span><span>装成好像很多人打赏的样子</span></a>
+        </nav>
+    </div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/puppeteer/">puppeteer</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ai-ruby.github.io/posts/学习 puppeteer 入门/&title=《puppeteer 爬虫入门》 — ai-ruby博客&pic=https://ai-ruby.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ai-ruby.github.io/posts/学习 puppeteer 入门/&title=《puppeteer 爬虫入门》 — ai-ruby博客&source=Run to full stack engineer." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://ai-ruby.github.io/posts/学习 puppeteer 入门/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《puppeteer 爬虫入门》 — ai-ruby博客&url=https://ai-ruby.github.io/posts/学习 puppeteer 入门/&via=https://ai-ruby.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://ai-ruby.github.io/posts/学习 puppeteer 入门/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/学习typescript/" id="post-next" class="post-nav-link">
+        <h4 class="title" data-hover="下一篇：Learning Typescript">下一篇：Learning Typescript</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+    
+
+    
+
+    
+
+
+</article>
+
+</div>
+
+        <footer class="footer">
+    <div class="footer-content">
+        <span class="power">
+            <i class="icon icon-lg icon-copyright"></i>
+            2018
+            <i class="icon icon-lg icon-heart"></i>
+            <a href="https://ai-ruby.github.io">https://ai-ruby.github.io/</a>
+            <br/>
+            Power by
+            <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>&nbsp;·&nbsp;
+            Theme
+            <a class="tomotoeslink" href="https://github.com/tomotoes/hexo-theme-tomotoes/" target="_blank" rel="external nofollow">tomotoes</a>
+        </span>
+
+        <br/>
+
+        <span id="RunTime" style="color:#a7a7a2;"></span>
+        <br/>
+
+        <span>
+            
+	<i class="icon icon-lg icon-user">
+<span id="busuanzi_container_site_uv" style='display:none'>
+       访问用户：<span id="busuanzi_value_site_uv"></span>
+    </span>人</i>
+    ·
+    <i class="icon icon-lg icon-eye">
+    <span id="busuanzi_container_site_pv" style='display:none'>
+      访问次数：<span id="busuanzi_value_site_pv"></span>
+    </span>次
+    </i>
+
+
+        </span>
+        <br/>
+
+        <span class="license">footer.license</span>
+    </div>
+</footer>
+
+    </main>
+    
+        
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        <span>感谢您的鼓励支持！</span>
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" data-img="/img/dog.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpeg" data-alipay="/img/alipay.jpeg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechatPay">&nbsp;&nbsp;微信&nbsp;&nbsp;</span>
+                <span class="reward-toggle-item alipayPay">支付宝</span>
+            </div>
+        </label>
+        
+        <i class="icon icon-caret-up"></i>
+    </div>
+</div>
+
+
+    
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ai-ruby.github.io/posts/学习 puppeteer 入门/&title=《puppeteer 爬虫入门》 — ai-ruby博客&pic=https://ai-ruby.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ai-ruby.github.io/posts/学习 puppeteer 入门/&title=《puppeteer 爬虫入门》 — ai-ruby博客&source=Run to full stack engineer." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://ai-ruby.github.io/posts/学习 puppeteer 入门/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《puppeteer 爬虫入门》 — ai-ruby博客&url=https://ai-ruby.github.io/posts/学习 puppeteer 入门/&via=https://ai-ruby.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://ai-ruby.github.io/posts/学习 puppeteer 入门/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p class="wechatshare">扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJElEQVR42u3aMW7DMAwF0Nz/0i7QKR3ifJIO0NBPk5Gkkp4HViT1eMTj+B3Pz8+fnP/+2plHAwMD42sZx+l4tVh1K+fzJ7O9+VsMDIwbMHrTvdpoL9Qmr+zl5xgYGBinIXUSQJPPMTAwMKrLz9PRyTEUAwPjzoxk6mSBq4LyB3NxDAyML2R8IuG86vnj/Q0MDIx/zziKYxJe85nLu8LAwFjNSFqSeem/d5RMktgoHGNgYNyYcR4Wq8fH/IxXftEYGBhLGXnZPdnKPFmtHkP/nHAxMDCWMqrBrtceyLeSP2NgYNyNkQN6RbFq4lq9AoKBgbGb0dvo/KJGHuiT1TEwMHYz8mRynnz2DnwJDwMDYzcjByQhddIkqJbYMDAw7sOolsmqBbhJsjq59oGBgbGJ0SuiVRfrNRUuuC2CgYGxglGdLimoJVu/oLiGgYFxM0ZS/KoG3DwZ7pXkov8hGBgYKxifK371rnxd1rzEwMBYxKiGyDe90GIgbh7+MDAwbsboXXHI8cmBL1+lkGFjYGCsY1QT0TxY99oG5XQXAwNjNaN61Lsq9c2p+bESAwNjK+Mojvwk1kuPm99iYGCsZuQjTyxHy8w7sRgYGEsZvSDbuwrW+31Bj4GBsZqRl8PyyxPVolsvEGNgYGBUS2O9i2J5S/VN1RADAwOjGBCr6ejoSgcGBsYNGHmqOWlGTlqYb6IrBgbGasakMTBPQfOXNVkdAwPjaxk/iqJ0cmjpCKoAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <!-- waves按钮特效 -->
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<!-- 主题配置脚本 -->
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+</script>
+
+<!-- jquery -->
+<script src="/js/jquery.min.js?v=3.0"></script>
+
+<!-- 搜索 -->
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item waves-block waves-effect" onclick="location.href='{path}'">
+    <div class="title ellipsis" title="{title}">{title}</div>
+</li>
+</template>
+
+
+<!-- main博客脚本 -->
+<script src="/js/main.min.js?v=3.0" ></script>
+
+<!-- 动画&配置 -->
+<script src="/js/script.min.js?v=3.0" ></script>
+
+<!-- 脚本管理 -->
+<script>
+
+if(window.innerWidth > 800){
+	/* 3D标题 */
+	$(".content-header").on("mousemove", threedee);
+
+	/* 底部追随鼠标 */
+	$(".footer").hover(2);
+
+	/* gotop键的涟漪 */
+	$("#gotop").hover(1);
+
+	/* 赞赏的粒子雨 */
+	$("#reward").hover(3);
+
+	/* 微信公众号的底部渲染 */
+	$("#wechat").hover(4);
+
+    /* 标题跳动 */
+    $(".archivestitle").bumpyText();
+
+	/* 图片点击放大 */
+	const postimg = jQuery(".post-content img:not(.github-emoji)");
+	postimg.on("click",function(){
+
+		mask.classList.add("in");
+		main.classList.add("Mask");
+		menu.classList.add("Mask");
+		var myimg = this.cloneNode(true);
+		myimg.classList.add("imgShow");
+
+		setTimeout(function(){
+			jQuery(myimg).animate({
+				opacity:"1"
+			},1000);
+		},0);
+
+		document.body.appendChild(myimg);
+
+		myimg.onclick=function(){
+			document.body.removeChild(myimg);
+			mask.classList.remove("in");
+			main.classList.remove("Mask");
+			menu.classList.remove("Mask");
+		};
+
+	});
+
+}
+
+/* 名字跳动 */
+$("#name").bumpyText();
+
+
+/* 网站运行时间 */
+setInterval(function () {
+	setTime("2018/04/03");
+}, 1000);
+
+/* 文章块的淡出 */
+postshow();
+
+/* 座右铭 */
+
+   getHitokoto();
+
+
+
+/* 粘贴提示 */
+G($(".post-content"), location.href, "ai-ruby");
+
+
+/* 控制台 */
+if (window.console && window.console.log) {
+	setTimeout(function () {
+		console.log("\n %c 在Web全栈的道路上努力前行 %c  © ai-ruby  https://ai-ruby.github.io/ \n\n", "color:#FFFFFB;background:#1abc9c;padding:5px 0;border-radius:.5rem 0 0 .5rem;", "color:#FFFFFB;background:#080808;padding:5px 0;border-radius:0 .5rem .5rem 0;");
+	}, 0);
+}
+
+</script>
+
+
+
+
+<!-- 公式渲染 -->
+
+
+
+<!-- 不蒜子 -->
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+</body>
+</html>
