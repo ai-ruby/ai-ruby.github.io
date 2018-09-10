@@ -40,18 +40,18 @@
 
 
     
-    <meta name="description" content="在vue里 利用canvas API 生成二维码,指定用户名头像,生成一张图片以作分享  前言 之前在vue项目中,要用到canvas, 把用户的头像和用户名的二维码添加一个背景图上生成一张图片用作分享的功能  具体怎么把头像和二维码实现成一张分享图的代码不一一写上来了,具体说下做这个遇到的坑,或许就是能帮助你避免这些踩坑时间了 渲染先后顺序 哪个渲染前,则层级越低,反之越高. 预防把背景图写到">
+    <meta name="description" content="在vue里 利用canvas API ,qrcode生成二维码,指定用户名头像,生成一张图片以作分享  前言 之前在vue项目中,要用到canvas, 把用户的头像和用户名的二维码添加一个背景图上生成一张图片用作分享的功能  具体怎么把头像和二维码实现成一张分享图的代码不一一写上来了,具体说下做这个遇到的坑,或许就是能帮助你避免这些踩坑时间了 渲染先后顺序 哪个渲染前,则层级越低,反之越高. 预">
 <meta name="keywords" content="canvas">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue + canvas + Qrcode">
 <meta property="og:url" content="https://ai-ruby.github.io/posts/vue-canvas/index.html">
 <meta property="og:site_name" content="ai-ruby博客">
-<meta property="og:description" content="在vue里 利用canvas API 生成二维码,指定用户名头像,生成一张图片以作分享  前言 之前在vue项目中,要用到canvas, 把用户的头像和用户名的二维码添加一个背景图上生成一张图片用作分享的功能  具体怎么把头像和二维码实现成一张分享图的代码不一一写上来了,具体说下做这个遇到的坑,或许就是能帮助你避免这些踩坑时间了 渲染先后顺序 哪个渲染前,则层级越低,反之越高. 预防把背景图写到">
+<meta property="og:description" content="在vue里 利用canvas API ,qrcode生成二维码,指定用户名头像,生成一张图片以作分享  前言 之前在vue项目中,要用到canvas, 把用户的头像和用户名的二维码添加一个背景图上生成一张图片用作分享的功能  具体怎么把头像和二维码实现成一张分享图的代码不一一写上来了,具体说下做这个遇到的坑,或许就是能帮助你避免这些踩坑时间了 渲染先后顺序 哪个渲染前,则层级越低,反之越高. 预">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-17T03:42:18.182Z">
+<meta property="og:updated_time" content="2018-08-17T03:45:46.628Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue + canvas + Qrcode">
-<meta name="twitter:description" content="在vue里 利用canvas API 生成二维码,指定用户名头像,生成一张图片以作分享  前言 之前在vue项目中,要用到canvas, 把用户的头像和用户名的二维码添加一个背景图上生成一张图片用作分享的功能  具体怎么把头像和二维码实现成一张分享图的代码不一一写上来了,具体说下做这个遇到的坑,或许就是能帮助你避免这些踩坑时间了 渲染先后顺序 哪个渲染前,则层级越低,反之越高. 预防把背景图写到">
+<meta name="twitter:description" content="在vue里 利用canvas API ,qrcode生成二维码,指定用户名头像,生成一张图片以作分享  前言 之前在vue项目中,要用到canvas, 把用户的头像和用户名的二维码添加一个背景图上生成一张图片用作分享的功能  具体怎么把头像和二维码实现成一张分享图的代码不一一写上来了,具体说下做这个遇到的坑,或许就是能帮助你避免这些踩坑时间了 渲染先后顺序 哪个渲染前,则层级越低,反之越高. 预">
     
         <link rel="alternate" type="application/atom+xml" title="ai-ruby博客" href="/atom.xml">
     
@@ -205,7 +205,7 @@
         <div class="post-meta">
             <i class="icon icon-lg icon-calendar-o"></i>
             发表于
-            <time class="post-time" title="2018-08-17 10:33:39" datetime="2018-08-17T02:33:39.372Z"  itemprop="datePublished">2018-08-17</time>
+            <time class="post-time" title="2018-08-17 10:33:39" datetime="2018-08-17T02:33:39.373Z"  itemprop="datePublished">2018-08-17</time>
 
             <br id="mybreak"/>
             
@@ -227,7 +227,7 @@
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             <blockquote>
-<p>在vue里 利用canvas API 生成二维码,指定用户名头像,生成一张图片以作分享</p>
+<p>在vue里 利用canvas API ,qrcode生成二维码,指定用户名头像,生成一张图片以作分享</p>
 </blockquote>
 <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><ul>
 <li>之前在vue项目中,要用到canvas, 把用户的头像和用户名的二维码添加一个背景图上生成一张图片用作分享的功能</li>
@@ -253,7 +253,7 @@
     <div class="content">
         
 <span class="post-time">
-    post.last_updated<time datetime="2018-08-17T03:42:18.182Z" itemprop="dateUpdated">2018-08-17 11:42:18</time>
+    post.last_updated<time datetime="2018-08-17T03:45:46.628Z" itemprop="dateUpdated">2018-08-17 11:45:46</time>
 </span>
 
 
@@ -338,9 +338,9 @@
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="/posts/移动端的bug/" id="post-prev" class="post-nav-link">
+      <a href="/posts/git-flow/" id="post-prev" class="post-nav-link">
         <h4 class="title" >
-          上一篇：移动端弹窗滑动引起底部body窗体滚动的bug处理
+          上一篇：git-flow 在初始化仓库时创建功能时报&#39;git flow init&#39;错
         </h4>
       </a>
     </div>
